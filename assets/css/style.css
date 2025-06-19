@@ -1,0 +1,162 @@
+/* Reset margin dan tinggi body serta html supaya full height */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Bungkus seluruh halaman dengan flex container */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Konten utama harus flexible untuk mengambil ruang */
+.container {
+  flex: 1;
+}
+
+/* Styling footer */
+.footer {
+  background-color: #f8f9fa; /* warna light bg sesuai bootstrap */
+  flex-shrink: 0; /* jangan mengecil */
+}
+
+
+@media print {
+  body * {
+    visibility: hidden;  /* Sembunyikan semua elemen */
+  }
+  #printableArea, #printableArea * {
+    visibility: visible;  /* Hanya tampilkan area yang dicetak */
+  }
+  #printableArea {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+  }
+  h3 {
+    text-align: center;
+    font-size: 24px;
+  }
+  p {
+    text-align: justify;
+    font-size: 16px;
+  }
+  .btn {
+    display: none;  /* Sembunyikan tombol saat mencetak */
+  }
+
+  /* Menambahkan styling untuk teks yang di sebelah kanan */
+  .right-align {
+    text-align: right;
+  }
+}
+
+/* Styling untuk halaman login */
+
+    .login-container {
+      display: flex;
+      height: 100vh;
+      align-items: center;
+      justify-content: center;
+      background-color: #f0f2f5;
+      position: relative;
+    }
+    .login-image {
+      background-image: url('https://masuk-ptn.com/images/product/8a658062631aa864333b59cd45b40fa9d9ee0580.jpg'); /* Ganti dengan URL gambar Unila */
+      background-size: cover;
+      background-position: center;
+      height: 100%;
+      flex: 1;
+      border-radius: 8px 0 0 8px;
+      filter: blur(8px); /* Blur the background image */
+    }
+    .login-form {
+      max-width: 600px; /* Membuat form login lebih besar */
+      padding: 60px; /* Memberikan padding yang lebih besar */
+      border-radius: 15px;
+      background-color: rgba(255, 255, 255, 0.9); /* Background semi-transparan */
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      position: absolute;
+      z-index: 1;
+    }
+    .login-form h2 {
+      margin-bottom: 30px;
+      font-size: 30px;
+      font-weight: bold;
+      color: #333;
+    }
+    .form-control {
+      border-radius: 20px;
+    }
+    .btn-primary {
+      border-radius: 20px;
+      padding: 12px 20px;
+    }
+    .alert {
+      border-radius: 20px;
+    }
+
+    /* Styling untuk tampilan registrasi */
+.login-container {
+  display: flex;
+  height: 10vh;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f2f5;
+  position: relative;
+}
+
+.login-image {
+  background-image: url('https://masuk-ptn.com/images/product/8a658062631aa864333b59cd45b40fa9d9ee0580.jpg'); /* Ganti dengan URL gambar Unila */
+  background-size: cover;
+  background-position: center;
+  height: 100%;
+  flex: 1;
+  border-radius: 8px 0 0 8px;
+  filter: blur(8px); /* Blur the background image */
+}
+
+.login-form {
+  max-width: 600px; /* Membuat form login lebih besar */
+  padding: 60px;
+  border-radius: 15px;
+  background-color: rgba(255, 255, 255, 0.9); /* Background semi-transparan */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  z-index: 1;
+}
+
+.login-form h2 {
+  margin-bottom: 30px;
+  font-size: 30px;
+  font-weight: bold;
+  color: #333;
+}
+
+.form-control {
+  border-radius: 20px;
+}
+
+.btn-primary {
+  border-radius: 20px;
+  padding: 12px 20px;
+}
+
+.alert {
+  border-radius: 20px;
+}
