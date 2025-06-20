@@ -12,7 +12,6 @@ Aplikasi *Booking Seminar* adalah sistem berbasis web untuk mengelola pendaftara
 - *Jadwal Seminar:* Semua user dapat melihat jadwal seminar yang sudah disetujui
 - *Manajemen User:* Admin dapat mengelola data mahasiswa, dosen, dan peserta seminar
 - *Dashboard Role-based:* Setiap user melihat fitur sesuai hak akses
-- *Backup Database:* Disediakan file .sql untuk import data awal
 
 ---
 
