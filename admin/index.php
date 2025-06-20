@@ -15,18 +15,20 @@ require_once "../config/database.php";
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
 </head>
 <body>
-<?php include "../includes/admin_header.php"; ?>
-<?php include "../includes/admin_sidebar.php"; ?>
+<?php 
+  include "../includes/admin_header.php"; 
+  include "../includes/admin_sidebar.php"; 
+?>
 
 <main id="mainContent" class="content">
   <div class="container-fluid">
 
     <div class="row mb-5">
-      <!-- Bagian ATAS: Jadwal Seminar Sudah Terisi -->
+      <!-- ======== BAGIAN ATAS: Semua Jadwal Seminar ======== -->
       <div class="col-12 mb-4">
         <div class="card shadow-sm">
           <div class="card-header bg-primary text-white">
-            <i class="bi bi-calendar-event me-2"></i> Jadwal Seminar Sudah Terisi
+            <i class="bi bi-calendar-event me-2"></i> Semua Jadwal Seminar (Semua Status)
           </div>
           <div class="card-body p-2">
             <div class="table-responsive">
@@ -39,6 +41,7 @@ require_once "../config/database.php";
                     <th>Judul</th>
                     <th>Pembimbing</th>
                     <th>Penguji</th>
+                    <th>Status</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -49,23 +52,26 @@ require_once "../config/database.php";
                          u.nama AS peserta,
                          s.judul,
                          (SELECT dp.nama FROM mahasiswa_dosen md
-                            JOIN users dp ON md.id_dosen = dp.id
-                            WHERE md.id_mahasiswa = u.id AND md.jenis_dosen = 'pembimbing' LIMIT 1) AS pembimbing,
+                          JOIN users dp ON md.id_dosen = dp.id
+                          WHERE md.id_mahasiswa = u.id AND md.jenis_dosen = 'pembimbing' LIMIT 1) AS pembimbing,
                          (SELECT du.nama FROM mahasiswa_dosen md
-                            JOIN users du ON md.id_dosen = du.id
-                            WHERE md.id_mahasiswa = u.id AND md.jenis_dosen = 'penguji' LIMIT 1) AS penguji
-                    FROM seminars s
-                    LEFT JOIN users u ON s.id_user = u.id
-                   WHERE s.status = 'approved'
-                   ORDER BY s.tanggal ASC, s.waktu_mulai ASC
+                          JOIN users du ON md.id_dosen = du.id
+                          WHERE md.id_mahasiswa = u.id AND md.jenis_dosen = 'penguji' LIMIT 1) AS penguji,
+                         s.status
+                  FROM seminars s
+                  LEFT JOIN users u ON s.id_user = u.id
+                  ORDER BY s.tanggal ASC, s.waktu_mulai ASC
                 ";
                 $stmt = $pdo->query($sql);
                 $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                 if(empty($rows)) {
-                  echo '<tr><td colspan="6" class="text-center text-muted">Belum ada seminar terjadwal.</td></tr>';
+                  echo '<tr><td colspan="7" class="text-center text-muted">Belum ada seminar terjadwal.</td></tr>';
                 } else {
                   foreach($rows as $row) {
+                    $badge = '<span class="badge bg-warning text-dark">Pending</span>';
+                    if ($row['status'] === 'approved') $badge = '<span class="badge bg-success">Disetujui</span>';
+                    elseif ($row['status'] === 'rejected') $badge = '<span class="badge bg-danger">Ditolak</span>';
                     echo "<tr>
                       <td>{$row['tanggal']}</td>
                       <td>{$row['jam']}</td>
@@ -73,6 +79,7 @@ require_once "../config/database.php";
                       <td>{$row['judul']}</td>
                       <td>{$row['pembimbing']}</td>
                       <td>{$row['penguji']}</td>
+                      <td>{$badge}</td>
                     </tr>";
                   }
                 }
@@ -84,7 +91,7 @@ require_once "../config/database.php";
         </div>
       </div>
 
-      <!-- Bagian BAWAH: Jadwal Seminar Belum Terisi (7 hari ke depan, 4 slot per hari) -->
+      <!-- ======== BAGIAN BAWAH: Jadwal Seminar Belum Terisi (7 Hari Ke Depan) ======== -->
       <div class="col-12 mb-4">
         <div class="card shadow-sm">
           <div class="card-header bg-warning text-dark">
@@ -101,7 +108,6 @@ require_once "../config/database.php";
                 </thead>
                 <tbody>
                 <?php
-                // Slot waktu 7 hari ke depan, jam: 08:00, 10:00, 13:00, 15:00
                 $today = date('Y-m-d');
                 $slots = [];
                 for($i = 0; $i < 7; $i++) {
@@ -110,7 +116,6 @@ require_once "../config/database.php";
                     $slots[] = ['tanggal'=>$tgl, 'waktu_mulai'=>$jam];
                   }
                 }
-                // Query seminar yang sudah approve
                 $booked = [];
                 $stmt2 = $pdo->query("SELECT tanggal, waktu_mulai FROM seminars WHERE status='approved'");
                 while($row = $stmt2->fetch(PDO::FETCH_ASSOC)) {
@@ -138,11 +143,11 @@ require_once "../config/database.php";
         </div>
       </div>
     </div>
-
   </div>
 </main>
-
 
 <?php include "../includes/footer.php"; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
